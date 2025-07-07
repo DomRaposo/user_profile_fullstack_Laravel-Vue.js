@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { API_CONFIG, ConfigUtils } from '@/config/api';
 
-/**
- * Service centralizado para todas as chamadas da API - Laravel Backend
- */
+
 class ApiService {
   constructor() {
-    // Criar instância do axios com configuração profissional
+
     this.api = axios.create({
       baseURL: API_CONFIG.baseURL,
       timeout: API_CONFIG.timeout,
@@ -14,15 +12,13 @@ class ApiService {
       withCredentials: true // Importante para Laravel Sanctum
     });
 
-    // Configurar interceptadores
+
     this.setupInterceptors();
   }
 
-  /**
-   * Configurar interceptadores de request e response
-   */
+
   setupInterceptors() {
-    // Request interceptor - Adicionar token JWT automaticamente
+
     this.api.interceptors.request.use(
       (config) => {
         const token = this.getToken();
@@ -44,7 +40,7 @@ class ApiService {
       }
     );
 
-    // Response interceptor - Tratamento de erros
+
     this.api.interceptors.response.use(
       (response) => {
         ConfigUtils.debugLog('Response recebido:', {
@@ -155,7 +151,7 @@ class ApiService {
     }
   }
 
-  // Métodos HTTP
+
   async get(url, config = {}) {
     try {
       const response = await this.api.get(url, config);
@@ -201,7 +197,7 @@ class ApiService {
     }
   }
 
-  // Métodos de autenticação
+
   getToken() {
     return localStorage.getItem(API_CONFIG.auth.tokenKey);
   }
@@ -237,6 +233,6 @@ class ApiService {
   }
 }
 
-// Instância singleton
+
 const apiService = new ApiService();
 export default apiService; 

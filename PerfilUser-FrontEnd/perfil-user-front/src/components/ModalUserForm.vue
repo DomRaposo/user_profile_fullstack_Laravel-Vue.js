@@ -223,7 +223,7 @@ export default {
     },
     submitForm() {
       const userData = { ...this.formData }
-      // Validação dos campos obrigatórios
+      // Validação
       if (!userData.fullName || !userData.email || !userData.password ||
           !userData.confirmPassword || !userData.age || !userData.street ||
           !userData.neighborhood || !userData.state || !userData.city) {

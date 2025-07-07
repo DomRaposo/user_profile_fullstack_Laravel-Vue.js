@@ -2,17 +2,17 @@
  * Configuração centralizada da API - Laravel Backend
  */
 
-// Configuração de ambiente
+
 const ENV = {
   DEVELOPMENT: 'development',
   PRODUCTION: 'production',
   TEST: 'test'
 };
 
-// Configuração atual do ambiente
+
 const currentEnv = process.env.NODE_ENV || ENV.DEVELOPMENT;
 
-// Configurações por ambiente
+
 const environmentConfig = {
   [ENV.DEVELOPMENT]: {
     baseURL: 'http://localhost:8000/api',
@@ -40,30 +40,30 @@ const environmentConfig = {
   }
 };
 
-// Configuração ativa
+
 const activeConfig = environmentConfig[currentEnv];
 
-/**
- * Configuração principal da API
+
+ /* Configuração principal da API
  */
 export const API_CONFIG = {
   // URLs base
   baseURL: activeConfig.baseURL,
   apiURL: activeConfig.apiURL,
   
-  // Configurações de timeout e retry
+
   timeout: activeConfig.timeout,
   retryAttempts: activeConfig.retryAttempts,
   retryDelay: activeConfig.retryDelay,
   
-  // Headers padrão
+
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   },
   
-  // Configurações de autenticação
+
   auth: {
     tokenKey: 'auth_token',
     refreshTokenKey: 'refresh_token',
@@ -71,12 +71,12 @@ export const API_CONFIG = {
     tokenPrefix: 'Bearer '
   },
   
-  // Configurações de debug
+
   debug: activeConfig.debug,
   
-  // Endpoints específicos - Laravel
+
   endpoints: {
-    // Autenticação
+
     auth: {
       login: '/login',
       register: '/users', // POST para criar usuário
@@ -84,7 +84,7 @@ export const API_CONFIG = {
       csrf: '/csrf-token'
     },
     
-    // Usuários
+
     users: {
       list: '/users',
       create: '/users',

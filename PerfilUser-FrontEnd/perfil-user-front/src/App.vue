@@ -1,25 +1,25 @@
 <template>
   <div id="app" class="app-container">
-    <!-- Login Page -->
+
     <Login 
       v-if="currentPage === 'login'" 
       @loginSuccess="handleLoginSuccess" 
       @registerSuccess="handleRegisterSuccess"
     />
 
-    <!-- Dashboard -->
+
     <div v-else class="dashboard">
-      <!-- Header -->
+
       <AppHeader 
         :user="currentUser"
         @logout="handleLogout"
         @profile="showProfile = true"
       />
 
-      <!-- Main Content -->
+
       <main class="main-content">
         <div class="container">
-          <!-- Dashboard Header -->
+
           <div class="dashboard-header">
             <div class="header-info">
               <div class="header-text">
@@ -29,7 +29,7 @@
                 </p>
               </div>
               
-              <!-- Action Buttons -->
+
               <div class="header-actions">
                 <button
                   @click="openCreateModal"
@@ -44,9 +44,9 @@
             </div>
           </div>
 
-          <!-- Stats Cards -->
+
           <div class="stats-grid">
-            <!-- Total Users -->
+
             <div class="stat-card">
               <div class="stat-content">
                 <div class="stat-icon">
@@ -63,7 +63,7 @@
               </div>
             </div>
 
-            <!-- Online Status -->
+
             <div class="stat-card">
               <div class="stat-content">
                 <div class="stat-icon">
@@ -109,11 +109,11 @@
         </div>
       </main>
 
-      <!-- Footer -->
+
       <AppFooter />
     </div>
 
-    <!-- Modals -->
+
     <ModalUserForm 
       v-if="showFormModal"
       :is-edit="isEdit"
@@ -128,7 +128,7 @@
       @close="closeViewModal"
     />
 
-    <!-- Profile Modal -->
+
     <div v-if="showProfile" class="modal-overlay">
       <div class="profile-modal">
         <div class="profile-header">
@@ -166,7 +166,7 @@
       </div>
     </div>
 
-    <!-- Global Loading Overlay -->
+
     <div v-if="globalLoading" class="loading-overlay">
       <div class="loading-modal">
         <svg class="loading-spinner" fill="none" viewBox="0 0 24 24">
@@ -177,7 +177,7 @@
       </div>
     </div>
 
-    <!-- Toast Notifications -->
+
     <div class="toast-container">
       <div 
         v-for="toast in toasts" 

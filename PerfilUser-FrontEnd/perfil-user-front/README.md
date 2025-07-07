@@ -61,24 +61,37 @@ O projeto está configurado para consumir a API Laravel na porta 8000. As config
 ## 🏗️ Estrutura do Projeto
 
 ```
-src/
-├── components/          # Componentes Vue
-│   ├── Header.vue      # Cabeçalho da aplicação
-│   ├── Footer.vue      # Rodapé da aplicação
-│   ├── UserList.vue    # Lista de usuários
-│   ├── ModalUserForm.vue # Modal de formulário
-│   └── ModalUserView.vue # Modal de visualização
-├── views/              # Páginas/Vistas
-│   └── Login.vue       # Página de login
-├── services/           # Services da aplicação
-│   ├── ApiService.js   # Service principal da API
-│   ├── AuthService.js  # Service de autenticação
-│   └── UserService.js  # Service de usuários
-├── config/             # Configurações
-│   └── api.js          # Configuração da API
-├── utils/              # Utilitários
-│   └── auth.js         # Utilitários de autenticação
-└── App.vue             # Componente principal
+perfil-user-front/
+├── src/
+│   ├── components/
+│   │   ├── Header.vue
+│   │   ├── Footer.vue
+│   │   ├── ModalUserForm.vue
+│   │   ├── ModalUserView.vue
+│   │   └── UserList.vue
+│   ├── views/
+│   │   └── Login.vue
+│   ├── services/
+│   │   ├── ApiService.js
+│   │   ├── AuthService.js
+│   │   ├── UserService.js
+│   │   └── index.js
+│   ├── config/
+│   │   └── api.js
+│   ├── utils/
+│   │   └── auth.js
+│   ├── assets/
+│   │   ├── logo.png
+│   │   └── tailwind.css
+│   ├── App.vue
+│   ├── main.js
+│   └── axios.js
+├── public/
+│   ├── favicon.ico
+│   └── index.html
+├── package.json
+├── vue.config.js
+└── README.md
 ```
 
 ## 🔐 Autenticação

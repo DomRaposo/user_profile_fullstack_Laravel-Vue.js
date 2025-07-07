@@ -3,7 +3,7 @@
 import { API_CONFIG } from '@/config/api';
 import axios from 'axios';
 
-// Configuração global do axios (legacy)
+
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -16,7 +16,7 @@ const api = axios.create({
     }
 });
 
-// AVISO: Use AuthService em vez desta configuração
+
 console.warn('DEPRECATED: src/axios.js será removido. Use AuthService, UserService ou ApiService.');
 
 export default api;

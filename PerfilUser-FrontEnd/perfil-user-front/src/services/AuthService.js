@@ -1,9 +1,7 @@
 import apiService from './ApiService';
 import { API_CONFIG } from '@/config/api';
 
-/**
- * Service de autenticação - Laravel Backend
- */
+
 class AuthService {
   /**
    * Fazer login do usuário
@@ -12,7 +10,7 @@ class AuthService {
    */
   async login(credentials) {
     try {
-      // Primeiro, obter o token CSRF se necessário
+
       await this.getCsrfToken();
       
       const response = await apiService.post(API_CONFIG.endpoints.auth.login, credentials);
@@ -62,10 +60,10 @@ class AuthService {
    */
   async logout() {
     try {
-      // Chamar endpoint de logout no backend
+
       await apiService.post(API_CONFIG.endpoints.auth.logout);
       
-      // Limpar dados locais
+
       apiService.clearAuthData();
       
       return {

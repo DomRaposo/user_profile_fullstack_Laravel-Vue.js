@@ -150,6 +150,6 @@ class UserService {
   }
 }
 
-// Instância singleton
+
 const userService = new UserService();
 export default userService; 

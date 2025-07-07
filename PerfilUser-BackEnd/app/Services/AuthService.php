@@ -35,9 +35,9 @@ class AuthService
 
     public function logout(Request $request)
     {
-        // Revogar o token atual do usuário
+
         $request->user()->currentAccessToken()->delete();
-        
+
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 }
