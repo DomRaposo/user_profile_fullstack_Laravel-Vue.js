@@ -5,158 +5,38 @@ Sistema de gerenciamento de usuários desenvolvido com **Laravel** (Backend) e *
 ## 📁 Estrutura do Projeto
 
 ```
-/user_profile_fullstack 2 Laravel
-├── PerfilUser-BackEnd/
+user_profile_fullstack 2 Laravel/
+├── PerfilUser-BackEnd/         # Backend (Laravel)
 │   ├── app/
 │   │   ├── Http/
-│   │   │   ├── Controllers/
-│   │   │   │   ├── AuthController.php
-│   │   │   │   ├── Controller.php
-│   │   │   │   └── UserController.php
-│   │   │   ├── Middleware/
-│   │   │   │   ├── Authenticate.php
-│   │   │   │   ├── CorsMiddleware.php
-│   │   │   │   ├── EncryptCookies.php
-│   │   │   │   ├── PreventRequestsDuringMaintenance.php
-│   │   │   │   ├── RedirectIfAuthenticated.php
-│   │   │   │   ├── TrimStrings.php
-│   │   │   │   ├── TrustHosts.php
-│   │   │   │   ├── TrustProxies.php
-│   │   │   │   ├── ValidateSignature.php
-│   │   │   │   └── VerifyCsrfToken.php
-│   │   │   └── Requests/
-│   │   │       └── LoginRequest.php
-│   │   ├── Models/
-│   │   │   └── User.php
-│   │   ├── Services/
-│   │   │   ├── AuthService.php
-│   │   │   └── UserService.php
-│   │   ├── Repositories/
-│   │   │   └── UserRepository.php
-│   │   ├── Console/
-│   │   │   └── Kernel.php
-│   │   ├── Exceptions/
-│   │   │   └── Handler.php
-│   │   └── Providers/
-│   │       ├── AppServiceProvider.php
-│   │       ├── AuthServiceProvider.php
-│   │       ├── BroadcastServiceProvider.php
-│   │       ├── EventServiceProvider.php
-│   │       └── RouteServiceProvider.php
-│   ├── routes/
-│   │   ├── api.php
-│   │   ├── web.php
-│   │   ├── channels.php
-│   │   └── console.php
-│   ├── database/
-│   │   ├── migrations/
-│   │   │   ├── 2014_10_12_000000_create_users_table.php
-│   │   │   ├── 2014_10_12_100000_create_password_reset_tokens_table.php
-│   │   │   ├── 2019_08_19_000000_create_failed_jobs_table.php
-│   │   │   └── 2019_12_14_000001_create_personal_access_tokens_table.php
-│   │   ├── seeders/
-│   │   │   └── DatabaseSeeder.php
-│   │   └── factories/
-│   │       └── UserFactory.php
-│   ├── config/
-│   │   ├── app.php
-│   │   ├── auth.php
-│   │   ├── broadcasting.php
-│   │   ├── cache.php
-│   │   ├── cors.php
-│   │   ├── database.php
-│   │   ├── filesystems.php
-│   │   ├── hashing.php
-│   │   ├── logging.php
-│   │   ├── mail.php
-│   │   ├── queue.php
-│   │   ├── sanctum.php
-│   │   ├── services.php
-│   │   ├── session.php
-│   │   └── view.php
-│   ├── tests/
-│   │   ├── Feature/
-│   │   │   └── ExampleTest.php
-│   │   ├── Unit/
-│   │   │   └── ExampleTest.php
-│   │   ├── CreatesApplication.php
-│   │   └── TestCase.php
-│   ├── storage/
-│   │   ├── app/
-│   │   ├── framework/
-│   │   │   ├── cache/
-│   │   │   ├── sessions/
-│   │   │   ├── testing/
-│   │   │   └── views/
-│   │   └── logs/
-│   ├── public/
-│   │   ├── favicon.ico
-│   │   ├── index.php
-│   │   └── robots.txt
-│   ├── resources/
-│   │   ├── css/
-│   │   │   └── app.css
-│   │   ├── js/
-│   │   │   ├── app.js
-│   │   │   └── bootstrap.js
-│   │   └── views/
-│   │       └── welcome.blade.php
-│   ├── bootstrap/
-│   │   ├── app.php
-│   │   └── cache/
-│   ├── composer.json
-│   ├── composer.lock
-│   ├── artisan
-│   ├── phpunit.xml
-│   ├── package.json
-│   ├── vite.config.js
-│   ├── CONFIGURACAO_BANCO.md
-│   ├── CONFIGURAR_BANCO_PROJ2.md
-│   ├── SOLUCAO_CORS.md
-│   └── .env
+│   │   │   ├── Controllers/    # Controladores (Auth, User, etc)
+│   │   │   ├── Middleware/     # Middlewares
+│   │   │   └── Requests/       # Form Requests
+│   │   ├── Models/             # Modelos Eloquent
+│   │   ├── Services/           # Serviços de negócio
+│   │   ├── Repositories/       # Repositórios de dados
+│   │   └── Providers/          # Providers do Laravel
+│   ├── routes/                 # Rotas (api.php, web.php, etc)
+│   ├── database/               # Migrations, seeders, factories
+│   ├── config/                 # Configurações do Laravel
+│   ├── public/                 # Document root (index.php)
+│   ├── resources/              # Views, assets, etc
+│   ├── tests/                  # Testes automatizados
+│   └── .env                    # Configuração de ambiente
 │
-├── PerfilUser-FrontEnd/
-│   ├── package-lock.json
-│   ├── package.json
+├── PerfilUser-FrontEnd/        # Frontend (Vue.js)
 │   └── perfil-user-front/
 │       ├── src/
-│       │   ├── components/
-│       │   │   ├── Footer.vue
-│       │   │   ├── Header.vue
-│       │   │   ├── ModalUserForm.vue
-│       │   │   ├── ModalUserView.vue
-│       │   │   └── UserList.vue
-│       │   ├── views/
-│       │   │   └── Login.vue
-│       │   ├── services/
-│       │   │   ├── ApiService.js
-│       │   │   ├── AuthService.js
-│       │   │   ├── UserService.js
-│       │   │   └── index.js
-│       │   ├── config/
-│       │   │   └── api.js
-│       │   ├── utils/
-│       │   │   └── auth.js
-│       │   ├── assets/
-│       │   │   ├── logo.png
-│       │   │   └── tailwind.css
-│       │   ├── App.vue
-│       │   ├── main.js
-│       │   └── axios.js
-│       ├── public/
-│       │   ├── index.html
-│       │   └── favicon.ico
-│       ├── package.json
-│       ├── package-lock.json
-│       ├── yarn.lock
-│       ├── vue.config.js
-│       ├── babel.config.js
-│       ├── jsconfig.json
-│       ├── README.md
-│       └── SOLUCAO_CACHE.md
+│       │   ├── components/     # Componentes Vue
+│       │   ├── views/          # Páginas/Views
+│       │   ├── services/       # Serviços de API
+│       │   ├── config/         # Configurações
+│       │   ├── utils/          # Utilitários
+│       │   └── assets/         # Imagens, CSS, etc
+│       ├── public/             # index.html, favicon, etc
+│       └── package.json        # Dependências do frontend
 │
-├── README.md
-└── .gitignore
+└── README.md                   # Documentação principal do projeto
 ```
 
 ## 🏗️ Arquitetura
