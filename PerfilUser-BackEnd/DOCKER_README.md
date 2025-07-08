@@ -1,6 +1,6 @@
 # 🐳 Docker para Laravel Backend - Perfil User
 
-Este documento contém instruções para executar o backend Laravel usando Docker.
+Este documento contém instruções para executar o backend Laravel usando Docker com **PHP 8.2-FPM** e **Nginx**.
 
 ## 📋 Pré-requisitos
 
@@ -70,6 +70,23 @@ docker-compose logs -f
 - **MySQL:** localhost:3306
 - **Redis:** localhost:6379
 
+## 🔧 Arquitetura
+
+### Stack Tecnológica
+- **PHP:** 8.2-FPM (FastCGI Process Manager)
+- **Web Server:** Nginx
+- **Process Manager:** Supervisor
+- **Database:** MySQL 8.0
+- **Cache:** Redis 7
+- **Admin:** phpMyAdmin
+
+### Vantagens do PHP-FPM + Nginx
+- ✅ **Performance:** Melhor gerenciamento de processos PHP
+- ✅ **Escalabilidade:** Processos PHP isolados
+- ✅ **Recursos:** Controle granular de memória e CPU
+- ✅ **Segurança:** Isolamento entre processos
+- ✅ **Estabilidade:** Reinicialização automática de processos
+
 ## 🔧 Comandos Úteis
 
 ### Executar comandos Laravel
@@ -113,13 +130,23 @@ docker-compose logs mysql
 docker-compose logs redis
 ```
 
-### Acessar banco de dados
+### Acessar serviços
 ```bash
 # Acessar MySQL via linha de comando
 docker-compose exec mysql mysql -u perfil_user -p perfil_user_db
 
 # Acessar Redis
 docker-compose exec redis redis-cli
+
+# Verificar status do PHP-FPM
+docker-compose exec laravel-backend supervisorctl status
+
+# Ver logs do Nginx
+docker-compose exec laravel-backend tail -f /var/log/nginx/access.log
+docker-compose exec laravel-backend tail -f /var/log/nginx/error.log
+
+# Ver logs do PHP-FPM
+docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
 ```
 
 ## 🗄️ Banco de Dados
@@ -181,6 +208,7 @@ CREATE TABLE users (
 # Corrigir permissões
 docker-compose exec laravel-backend chown -R www-data:www-data /var/www/html
 docker-compose exec laravel-backend chmod -R 755 /var/www/html/storage
+docker-compose exec laravel-backend chmod -R 755 /var/www/html/bootstrap/cache
 ```
 
 2. **Erro de conexão com banco**
@@ -205,13 +233,32 @@ docker-compose exec laravel-backend php artisan view:clear
 - Verificar se o frontend está configurado para acessar `http://localhost:8000`
 - Verificar configurações no `config/cors.php`
 
+5. **Problemas com PHP-FPM**
+```bash
+# Verificar status do Supervisor
+docker-compose exec laravel-backend supervisorctl status
+
+# Reiniciar serviços
+docker-compose exec laravel-backend supervisorctl restart nginx
+docker-compose exec laravel-backend supervisorctl restart php-fpm
+
+# Ver logs do PHP-FPM
+docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
+```
+
 ### Logs
 ```bash
 # Ver logs do Laravel
 docker-compose logs laravel-backend
 
-# Ver logs do Apache
-docker-compose exec laravel-backend tail -f /var/log/apache2/error.log
+# Ver logs do Nginx
+docker-compose exec laravel-backend tail -f /var/log/nginx/error.log
+
+# Ver logs do PHP-FPM
+docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
+
+# Ver logs do Supervisor
+docker-compose exec laravel-backend tail -f /var/log/supervisor/supervisord.log
 
 # Ver logs do MySQL
 docker-compose logs mysql
@@ -236,6 +283,13 @@ As mudanças no código são refletidas automaticamente. Para aplicar mudanças 
 docker-compose exec laravel-backend php artisan config:cache
 ```
 
+### Configurações PHP
+As configurações PHP podem ser ajustadas através de variáveis de ambiente:
+- `PHP_MEMORY_LIMIT`: Limite de memória (padrão: 512M)
+- `PHP_MAX_EXECUTION_TIME`: Tempo máximo de execução (padrão: 300s)
+- `PHP_UPLOAD_MAX_FILESIZE`: Tamanho máximo de upload (padrão: 64M)
+- `PHP_POST_MAX_SIZE`: Tamanho máximo de POST (padrão: 64M)
+
 ## 🚀 Produção
 
 ### Build para Produção
@@ -254,6 +308,8 @@ APP_DEBUG=false
 APP_URL=https://your-domain.com
 DB_HOST=your-db-host
 DB_PASSWORD=your-secure-password
+PHP_MEMORY_LIMIT=1024M
+PHP_MAX_EXECUTION_TIME=600
 ```
 
 ## 📊 Monitoramento
@@ -265,6 +321,9 @@ docker-compose ps
 
 # Verificar recursos
 docker stats
+
+# Verificar status dos serviços
+docker-compose exec laravel-backend supervisorctl status
 ```
 
 ### Backup do Banco
@@ -287,4 +346,4 @@ docker-compose exec -T mysql mysql -u perfil_user -p perfil_user_db < backup.sql
 
 ---
 
-**Desenvolvido com ❤️ usando Laravel e Docker** 
+**Desenvolvido com ❤️ usando Laravel 10, PHP 8.2-FPM, Nginx e Docker** 

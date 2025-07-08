@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Script de inicialização do Laravel no Docker
+# Script de inicialização do Laravel no Docker com PHP-FPM e Nginx
 
 set -e
 
-echo "🚀 Iniciando Laravel Backend..."
+echo "🚀 Iniciando Laravel Backend com PHP 8.2-FPM..."
 
 # Aguardar conexão com o banco de dados
 echo "⏳ Aguardando conexão com o banco de dados..."
@@ -46,9 +46,20 @@ echo "🔐 Definindo permissões..."
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html/storage
 chmod -R 755 /var/www/html/bootstrap/cache
+chmod -R 755 /var/www/html/public
 
-echo "🎉 Laravel Backend iniciado com sucesso!"
+# Criar diretórios de log se não existirem
+echo "📁 Criando diretórios de log..."
+mkdir -p /var/log/nginx /var/log/php-fpm /var/log/supervisor
+
+# Verificar configurações
+echo "🔍 Verificando configurações..."
+nginx -t
+php-fpm -t
+
+echo "🎉 Laravel Backend com PHP 8.2-FPM iniciado com sucesso!"
 echo "🌐 Acesse: http://localhost:8000"
+echo "📊 Nginx e PHP-FPM gerenciados pelo Supervisor"
 
 # Executar comando passado como argumento
 exec "$@" 
