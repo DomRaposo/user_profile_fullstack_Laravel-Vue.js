@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # Laravel Backend
+  laravel-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: perfil-user-backend
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=perfil_user_db
+      - DB_USERNAME=perfil_user
+      - DB_PASSWORD=perfil_user_password
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - perfil-user-network
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: perfil-user-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=perfil_user_db
+      - MYSQL_USER=perfil_user
+      - MYSQL_PASSWORD=perfil_user_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - perfil-user-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: perfil-user-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - perfil-user-network
+
+  # phpMyAdmin (Opcional - para desenvolvimento)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: perfil-user-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=perfil_user
+      - PMA_PASSWORD=perfil_user_password
+    depends_on:
+      - mysql
+    networks:
+      - perfil-user-network
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  perfil-user-network:
+    driver: bridge 

@@ -1,0 +1,62 @@
+# Arquivos e pastas a serem ignorados no Docker build
+
+# Dependências
+node_modules/
+vendor/
+
+# Arquivos de configuração local
+.env
+.env.local
+.env.production
+
+# Logs
+storage/logs/*
+!storage/logs/.gitkeep
+
+# Cache
+storage/framework/cache/*
+!storage/framework/cache/.gitkeep
+storage/framework/sessions/*
+!storage/framework/sessions/.gitkeep
+storage/framework/views/*
+!storage/framework/views/.gitkeep
+
+# Bootstrap cache
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Arquivos de desenvolvimento
+.git/
+.gitignore
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Arquivos de teste
+tests/
+phpunit.xml
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos temporários
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.bak
+*.backup
+
+# Arquivos de documentação
+*.md
+docs/
+
+# Arquivos de configuração de desenvolvimento
+.editorconfig
+.styleci.yml 
