@@ -67,5 +67,4 @@ RUN chown -R www-data:www-data /var/www \
 # Expõe a porta padrão do PHP-FPM
 EXPOSE 9191
 
-# Comando padrão para iniciar o PHP-FPM
-CMD ["php-fpm"] 
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=9191"] 
