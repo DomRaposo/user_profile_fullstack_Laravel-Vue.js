@@ -1,349 +1,273 @@
-# 🐳 Docker para Laravel Backend - Perfil User
+# 🐳 Laravel Backend - Docker Setup
 
-Este documento contém instruções para executar o backend Laravel usando Docker com **PHP 8.2-FPM** e **Nginx**.
+Este projeto está configurado para rodar com Docker, incluindo PHP 8.2-FPM, Nginx e Supervisor.
 
 ## 📋 Pré-requisitos
 
-- Docker
-- Docker Compose
+- Docker Desktop instalado e rodando
+- Docker Compose instalado
 - Git
 
 ## 🚀 Início Rápido
 
-### 1. Clonar o repositório
+### 1. Clone o repositório
 ```bash
-git clone <repository-url>
+git clone <seu-repositorio>
 cd PerfilUser-BackEnd
 ```
 
-### 2. Configurar variáveis de ambiente
+### 2. Configure o ambiente
 ```bash
+# Copie o arquivo de ambiente
 cp .env.example .env
+
+# Edite as configurações do banco de dados no .env
+# DB_HOST=easypanel.carlosvinicius.xyz
+# DB_PORT=1212
+# DB_DATABASE=user
+# DB_USERNAME=mysql
+# DB_PASSWORD=admin
 ```
 
-Edite o arquivo `.env` com as configurações do Docker:
-```env
-APP_NAME="Perfil User"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost:8000
-
-LOG_CHANNEL=stack
-LOG_DEPRECATIONS_CHANNEL=null
-LOG_LEVEL=debug
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=perfil_user_db
-DB_USERNAME=perfil_user
-DB_PASSWORD=perfil_user_password
-
-BROADCAST_DRIVER=log
-CACHE_DRIVER=redis
-FILESYSTEM_DISK=local
-QUEUE_CONNECTION=redis
-SESSION_DRIVER=redis
-SESSION_LIFETIME=120
-
-REDIS_HOST=redis
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-```
-
-### 3. Construir e executar containers
+### 3. Execute o build
 ```bash
-# Construir as imagens
-docker-compose build
+# No Windows (PowerShell)
+./build.sh
 
-# Executar os containers
+# Ou manualmente:
+docker-compose build --no-cache
 docker-compose up -d
-
-# Ver logs
-docker-compose logs -f
 ```
 
-### 4. Acessar a aplicação
-- **Laravel Backend:** http://localhost:8000
-- **phpMyAdmin:** http://localhost:8080
-- **MySQL:** localhost:3306
-- **Redis:** localhost:6379
+### 4. Acesse a aplicação
+- 🌐 **Laravel Backend**: http://localhost:8000
+- 📊 **Logs**: `docker-compose logs -f`
 
-## 🔧 Arquitetura
+## 🏗️ Arquitetura
 
-### Stack Tecnológica
-- **PHP:** 8.2-FPM (FastCGI Process Manager)
-- **Web Server:** Nginx
-- **Process Manager:** Supervisor
-- **Database:** MySQL 8.0
-- **Cache:** Redis 7
-- **Admin:** phpMyAdmin
+### Containers
+- **laravel-backend**: PHP 8.2-FPM + Nginx + Supervisor
+- **redis**: Cache Redis (opcional)
 
-### Vantagens do PHP-FPM + Nginx
-- ✅ **Performance:** Melhor gerenciamento de processos PHP
-- ✅ **Escalabilidade:** Processos PHP isolados
-- ✅ **Recursos:** Controle granular de memória e CPU
-- ✅ **Segurança:** Isolamento entre processos
-- ✅ **Estabilidade:** Reinicialização automática de processos
+### Serviços
+- **PHP-FPM**: Processamento PHP
+- **Nginx**: Servidor web
+- **Supervisor**: Gerenciamento de processos
 
 ## 🔧 Comandos Úteis
 
-### Executar comandos Laravel
+### Build e Deploy
 ```bash
-# Acessar container do Laravel
-docker-compose exec laravel-backend bash
+# Build completo
+./build.sh
 
-# Executar migrations
-docker-compose exec laravel-backend php artisan migrate
+# Build com limpeza
+./build.sh --clean
 
-# Executar seeders
-docker-compose exec laravel-backend php artisan db:seed
-
-# Limpar cache
-docker-compose exec laravel-backend php artisan cache:clear
-
-# Gerar chave da aplicação
-docker-compose exec laravel-backend php artisan key:generate
-
-# Listar rotas
-docker-compose exec laravel-backend php artisan route:list
+# Build manual
+docker-compose build --no-cache
+docker-compose up -d
 ```
 
-### Gerenciar containers
+### Gerenciamento de Containers
 ```bash
-# Parar containers
-docker-compose down
-
-# Parar e remover volumes
-docker-compose down -v
-
-# Reconstruir containers
-docker-compose up --build
-
-# Ver status dos containers
+# Ver status
 docker-compose ps
 
-# Ver logs de um serviço específico
+# Ver logs
+docker-compose logs -f
 docker-compose logs laravel-backend
-docker-compose logs mysql
-docker-compose logs redis
+
+# Parar
+docker-compose down
+
+# Reiniciar
+docker-compose restart
+
+# Remover tudo
+docker-compose down --volumes --remove-orphans
 ```
 
-### Acessar serviços
+### Acesso ao Container
 ```bash
-# Acessar MySQL via linha de comando
-docker-compose exec mysql mysql -u perfil_user -p perfil_user_db
+# Acessar bash
+docker-compose exec laravel-backend bash
 
-# Acessar Redis
-docker-compose exec redis redis-cli
+# Executar comandos Laravel
+docker-compose exec laravel-backend php artisan migrate
+docker-compose exec laravel-backend php artisan cache:clear
 
-# Verificar status do PHP-FPM
+# Ver status do Supervisor
 docker-compose exec laravel-backend supervisorctl status
-
-# Ver logs do Nginx
-docker-compose exec laravel-backend tail -f /var/log/nginx/access.log
-docker-compose exec laravel-backend tail -f /var/log/nginx/error.log
-
-# Ver logs do PHP-FPM
-docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
 ```
 
-## 🗄️ Banco de Dados
+## 📁 Estrutura de Arquivos
 
-### Credenciais
-- **Host:** mysql
-- **Porta:** 3306
-- **Database:** perfil_user_db
-- **Usuário:** perfil_user
-- **Senha:** perfil_user_password
-
-### Estrutura da Tabela Users
-```sql
-CREATE TABLE users (
-    id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    fullName VARCHAR(255) NOT NULL,
-    age INT(11) NOT NULL,
-    street VARCHAR(255) NOT NULL,
-    neighborhood VARCHAR(255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    city VARCHAR(255) NOT NULL,
-    biography TEXT NULL,
-    profile_image VARCHAR(255) NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    email_verified_at TIMESTAMP NULL,
-    remember_token VARCHAR(100) NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
-);
+```
+PerfilUser-BackEnd/
+├── Dockerfile                 # Configuração da imagem Docker
+├── docker-compose.yml         # Orquestração dos containers
+├── docker-entrypoint.sh       # Script de inicialização
+├── build.sh                   # Script de build automatizado
+├── .dockerignore              # Arquivos ignorados no build
+├── docker/                    # Configurações Docker
+│   ├── nginx/
+│   │   ├── nginx.conf         # Configuração principal do Nginx
+│   │   └── default.conf       # Configuração do site
+│   ├── php-fpm/
+│   │   └── www.conf           # Configuração PHP-FPM
+│   └── supervisor/
+│       └── supervisord.conf   # Configuração do Supervisor
+└── .env                       # Variáveis de ambiente
 ```
 
-## 🔐 Autenticação
+## ⚙️ Configurações
 
-### Usuário Padrão
-- **Email:** admin@perfiluser.com
-- **Senha:** password
+### PHP
+- **Versão**: 8.2-FPM
+- **Memory Limit**: 512M
+- **Max Execution Time**: 300s
+- **Upload Max Filesize**: 64M
+- **OPcache**: Habilitado e otimizado
 
-## 🌐 Endpoints da API
+### Nginx
+- **Porta**: 80 (mapeada para 8000)
+- **Gzip**: Habilitado
+- **Security Headers**: Configurados
+- **Static Files**: Cache otimizado
 
-### Autenticação
-- `POST /api/login` - Login do usuário
-- `POST /api/logout` - Logout do usuário
-- `GET /api/csrf-token` - Obter token CSRF
+### Banco de Dados
+- **Host**: easypanel.carlosvinicius.xyz
+- **Porta**: 1212
+- **Database**: user
+- **Username**: mysql
+- **Password**: admin
 
-### Usuários
-- `GET /api/users` - Listar todos os usuários
-- `POST /api/users` - Criar novo usuário
-- `GET /api/users/{id}` - Obter usuário específico
-- `PUT /api/users/{id}` - Atualizar usuário
-- `DELETE /api/users/{id}` - Deletar usuário
-
-## 🐛 Troubleshooting
+## 🔍 Troubleshooting
 
 ### Problemas Comuns
 
-1. **Erro de permissão**
+#### 1. Porta 8000 já em uso
 ```bash
-# Corrigir permissões
-docker-compose exec laravel-backend chown -R www-data:www-data /var/www/html
-docker-compose exec laravel-backend chmod -R 755 /var/www/html/storage
-docker-compose exec laravel-backend chmod -R 755 /var/www/html/bootstrap/cache
+# Verificar o que está usando a porta
+netstat -ano | findstr :8000
+
+# Ou alterar a porta no docker-compose.yml
+ports:
+  - "8001:80"  # Muda para porta 8001
 ```
 
-2. **Erro de conexão com banco**
+#### 2. Erro de permissão
 ```bash
-# Verificar se o MySQL está rodando
-docker-compose ps mysql
-
-# Ver logs do MySQL
-docker-compose logs mysql
+# Dentro do container
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html/storage
+chmod -R 755 /var/www/html/bootstrap/cache
 ```
 
-3. **Erro de cache**
+#### 3. Cache do Laravel
 ```bash
-# Limpar todos os caches
 docker-compose exec laravel-backend php artisan config:clear
 docker-compose exec laravel-backend php artisan cache:clear
 docker-compose exec laravel-backend php artisan route:clear
 docker-compose exec laravel-backend php artisan view:clear
 ```
 
-4. **Erro de CORS**
-- Verificar se o frontend está configurado para acessar `http://localhost:8000`
-- Verificar configurações no `config/cors.php`
-
-5. **Problemas com PHP-FPM**
+#### 4. Logs de erro
 ```bash
-# Verificar status do Supervisor
-docker-compose exec laravel-backend supervisorctl status
-
-# Reiniciar serviços
-docker-compose exec laravel-backend supervisorctl restart nginx
-docker-compose exec laravel-backend supervisorctl restart php-fpm
-
-# Ver logs do PHP-FPM
-docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
-```
-
-### Logs
-```bash
-# Ver logs do Laravel
-docker-compose logs laravel-backend
-
 # Ver logs do Nginx
 docker-compose exec laravel-backend tail -f /var/log/nginx/error.log
 
 # Ver logs do PHP-FPM
-docker-compose exec laravel-backend tail -f /var/log/php-fpm/php-fpm.log
+docker-compose exec laravel-backend tail -f /var/log/php-fpm/error.log
 
 # Ver logs do Supervisor
 docker-compose exec laravel-backend tail -f /var/log/supervisor/supervisord.log
-
-# Ver logs do MySQL
-docker-compose logs mysql
 ```
 
-## 🔄 Desenvolvimento
-
-### Modo de Desenvolvimento
-Para desenvolvimento, os volumes estão mapeados para permitir edição em tempo real:
-
-```yaml
-volumes:
-  - .:/var/www/html
-  - ./storage:/var/www/html/storage
-  - ./bootstrap/cache:/var/www/html/bootstrap/cache
-```
-
-### Hot Reload
-As mudanças no código são refletidas automaticamente. Para aplicar mudanças de configuração:
-
+### Verificação de Saúde
 ```bash
-docker-compose exec laravel-backend php artisan config:cache
-```
+# Testar conexão com banco
+docker-compose exec laravel-backend php artisan db:monitor
 
-### Configurações PHP
-As configurações PHP podem ser ajustadas através de variáveis de ambiente:
-- `PHP_MEMORY_LIMIT`: Limite de memória (padrão: 512M)
-- `PHP_MAX_EXECUTION_TIME`: Tempo máximo de execução (padrão: 300s)
-- `PHP_UPLOAD_MAX_FILESIZE`: Tamanho máximo de upload (padrão: 64M)
-- `PHP_POST_MAX_SIZE`: Tamanho máximo de POST (padrão: 64M)
+# Verificar status dos serviços
+docker-compose exec laravel-backend supervisorctl status
 
-## 🚀 Produção
+# Testar Nginx
+docker-compose exec laravel-backend nginx -t
 
-### Build para Produção
-```bash
-# Construir imagem otimizada
-docker build -t perfil-user-backend:production .
-
-# Executar em produção
-docker run -d -p 8000:80 --env-file .env.production perfil-user-backend:production
-```
-
-### Variáveis de Ambiente de Produção
-```env
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://your-domain.com
-DB_HOST=your-db-host
-DB_PASSWORD=your-secure-password
-PHP_MEMORY_LIMIT=1024M
-PHP_MAX_EXECUTION_TIME=600
+# Testar PHP-FPM
+docker-compose exec laravel-backend php-fpm -t
 ```
 
 ## 📊 Monitoramento
 
-### Health Check
+### Recursos do Sistema
 ```bash
-# Verificar saúde dos containers
-docker-compose ps
-
-# Verificar recursos
+# Ver uso de recursos
 docker stats
 
-# Verificar status dos serviços
-docker-compose exec laravel-backend supervisorctl status
+# Ver processos dentro do container
+docker-compose exec laravel-backend ps aux
 ```
 
-### Backup do Banco
+### Logs em Tempo Real
 ```bash
-# Backup
-docker-compose exec mysql mysqldump -u perfil_user -p perfil_user_db > backup.sql
+# Todos os logs
+docker-compose logs -f
 
-# Restore
-docker-compose exec -T mysql mysql -u perfil_user -p perfil_user_db < backup.sql
+# Logs específicos
+docker-compose logs -f laravel-backend
 ```
 
-## 🤝 Contribuição
+## 🔒 Segurança
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature
-3. Teste com Docker
-4. Commit suas mudanças
-5. Push para a branch
-6. Abra um Pull Request
+### Configurações de Segurança
+- Headers de segurança configurados no Nginx
+- Acesso negado a arquivos sensíveis (.env, logs, etc.)
+- OPcache habilitado para performance
+- Timezone configurado para UTC
+
+### Boas Práticas
+- Sempre use `.env` para configurações sensíveis
+- Não commite arquivos `.env` no Git
+- Use volumes para persistir dados importantes
+- Mantenha as imagens atualizadas
+
+## 🚀 Deploy em Produção
+
+### Preparação
+```bash
+# Build para produção
+docker-compose -f docker-compose.prod.yml build
+
+# Configurar variáveis de produção
+# APP_ENV=production
+# APP_DEBUG=false
+# CACHE_DRIVER=redis
+# SESSION_DRIVER=redis
+```
+
+### Comandos de Deploy
+```bash
+# Deploy
+docker-compose -f docker-compose.prod.yml up -d
+
+# Verificar status
+docker-compose -f docker-compose.prod.yml ps
+
+# Logs
+docker-compose -f docker-compose.prod.yml logs -f
+```
+
+## 📞 Suporte
+
+Se encontrar problemas:
+1. Verifique os logs: `docker-compose logs`
+2. Teste a conexão com o banco
+3. Verifique as configurações no `.env`
+4. Consulte a seção de troubleshooting
 
 ---
 
-**Desenvolvido com ❤️ usando Laravel 10, PHP 8.2-FPM, Nginx e Docker** 
+**Desenvolvido com ❤️ usando Laravel + Docker** 
