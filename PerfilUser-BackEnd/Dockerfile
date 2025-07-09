@@ -65,7 +65,7 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
 
 # Expõe a porta padrão do PHP-FPM
-EXPOSE 9000
+EXPOSE 9191
 
 # Comando padrão para iniciar o PHP-FPM
 CMD ["php-fpm"] 

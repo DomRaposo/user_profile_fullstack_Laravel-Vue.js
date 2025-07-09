@@ -18,6 +18,10 @@ Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
 
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 
 Route::middleware('auth:sanctum')->group(function () {
 
