@@ -148,6 +148,10 @@ npm run serve
 
 ## 🌐 Acessos
 
+### 🚀 Aplicação Implantada
+- **🌍 Demo Online**: [https://user-profile-fullstack-laravel-vue.vercel.app/login](https://user-profile-fullstack-laravel-vue.vercel.app/login)
+
+### 🖥️ Desenvolvimento Local
 - **Frontend**: http://localhost:8080
 - **Backend API**: http://localhost:8000
 - **API Health Check**: http://localhost:8000/api/health
