@@ -70,7 +70,7 @@ user_profile_fullstack/
 
 #### 1. Clone o repositório
 ```bash
-git clone <seu-repositorio>
+git clone <https://github.com/DomRaposo/user_profile_fullstack_Laravel-Vue.js>
 cd user_profile_fullstack
 ```
 
