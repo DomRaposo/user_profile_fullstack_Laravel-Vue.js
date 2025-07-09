@@ -20,9 +20,6 @@ WORKDIR /var/www
 # Copia os arquivos do projeto
 COPY . .
 
-# Garante que o .env exista
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
-
 # Garante que storage, bootstrap/cache, storage/framework/views e resources/views existam e estejam com permissão
 RUN mkdir -p storage bootstrap/cache storage/framework/views resources/views \
     && chown -R www-data:www-data storage bootstrap/cache storage/framework/views resources/views \
