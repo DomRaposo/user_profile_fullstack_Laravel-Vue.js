@@ -378,7 +378,7 @@ export default {
   },
   mounted() {
     // Configurar listeners de autenticação
-    AuthService.setupEventListeners();
+    // AuthService.setupEventListeners();
     
     // Limpar mensagens após um tempo
     this.setupMessageTimeout();
