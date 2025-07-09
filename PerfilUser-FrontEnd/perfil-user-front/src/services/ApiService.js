@@ -6,7 +6,7 @@ class ApiService {
   constructor() {
 
     this.api = axios.create({
-      baseURL: API_CONFIG.baseURL,
+      baseURL: process.env.VUE_APP_API_URL,
       timeout: API_CONFIG.timeout,
       headers: API_CONFIG.headers,
       withCredentials: true // Importante para Laravel Sanctum
