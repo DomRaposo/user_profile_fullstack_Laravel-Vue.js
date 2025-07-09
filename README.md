@@ -70,7 +70,7 @@ user_profile_fullstack/
 
 #### 1. Clone o repositório
 ```bash
-git clone <seu-repositorio>
+git clone <https://github.com/DomRaposo/user_profile_fullstack_Laravel-Vue.js>
 cd user_profile_fullstack
 ```
 
@@ -312,10 +312,6 @@ npm run lint --fix
 3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
 4. Push para a branch (`git push origin feature/NovaFuncionalidade`)
 5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
 ## 👥 Autores
 
