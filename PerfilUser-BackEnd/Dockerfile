@@ -20,6 +20,28 @@ WORKDIR /var/www
 # Copia os arquivos do projeto
 COPY . .
 
+# Cria arquivo .env básico para o Laravel funcionar
+RUN echo "APP_NAME=Laravel" > .env && \
+    echo "APP_ENV=local" >> .env && \
+    echo "APP_KEY=" >> .env && \
+    echo "APP_DEBUG=true" >> .env && \
+    echo "APP_URL=http://localhost" >> .env && \
+    echo "LOG_CHANNEL=stack" >> .env && \
+    echo "LOG_DEPRECATIONS_CHANNEL=null" >> .env && \
+    echo "LOG_LEVEL=debug" >> .env && \
+    echo "DB_CONNECTION=mysql" >> .env && \
+    echo "DB_HOST=127.0.0.1" >> .env && \
+    echo "DB_PORT=3306" >> .env && \
+    echo "DB_DATABASE=laravel" >> .env && \
+    echo "DB_USERNAME=root" >> .env && \
+    echo "DB_PASSWORD=" >> .env && \
+    echo "BROADCAST_DRIVER=log" >> .env && \
+    echo "CACHE_DRIVER=file" >> .env && \
+    echo "FILESYSTEM_DISK=local" >> .env && \
+    echo "QUEUE_CONNECTION=sync" >> .env && \
+    echo "SESSION_DRIVER=file" >> .env && \
+    echo "SESSION_LIFETIME=120" >> .env
+
 # Garante que storage, bootstrap/cache, storage/framework/views e resources/views existam e estejam com permissão
 RUN mkdir -p storage bootstrap/cache storage/framework/views resources/views \
     && chown -R www-data:www-data storage bootstrap/cache storage/framework/views resources/views \
