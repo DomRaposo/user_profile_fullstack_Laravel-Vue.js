@@ -28,16 +28,6 @@ RUN mkdir -p storage bootstrap/cache storage/framework/views resources/views \
 # Instala dependências do PHP
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Gera chave da aplicação e prepara caches
-RUN php artisan key:generate --force \
-    && php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan route:clear \
-    && php artisan view:clear \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
 # Permissões finais para storage e cache
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
