@@ -150,6 +150,13 @@ npm run serve
 
 ### 🚀 Aplicação Implantada
 - **🌍 Demo Online**: [https://user-profile-fullstack-laravel-vue.vercel.app/login](https://user-profile-fullstack-laravel-vue.vercel.app/login)
+Clique em "Cadastrar" para criar sua conta.
+
+Preencha todos os campos obrigatórios, como nome, e-mail, senha e etc...
+
+Após o cadastro, faça login para acessar o sistema.
+
+Recomendado utilizar um e-mail válido para testes.
 
 ### 🖥️ Desenvolvimento Local
 - **Frontend**: http://localhost:8080
